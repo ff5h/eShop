@@ -1,5 +1,5 @@
 ﻿using eShop.API.DAL.Entities;
-using eShop.API.DAL.EntityConfigurations;
+using eShop.API.DAL.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace eShop.API.DAL
@@ -8,11 +8,11 @@ namespace eShop.API.DAL
     {
         public CatalogContext(DbContextOptions<CatalogContext> options) : base(options) { }
 
-        public DbSet<CatalogItem> CatalogItems { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfiguration(new CatalogItemEntityTypeConfiguration());
+            builder.ApplyConfiguration(new ProductConfiguration());
         }
     }
 }
