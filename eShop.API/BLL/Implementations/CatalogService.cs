@@ -2,7 +2,6 @@
 using eShop.API.BLL.DTOs;
 using eShop.API.BLL.Interfaces;
 using eShop.API.DAL;
-using eShop.API.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace eShop.API.BLL.Implementations
@@ -42,42 +41,5 @@ namespace eShop.API.BLL.Implementations
             });
             return result;
         }
-
-        //public async Task CreateProductAsync(ProductDto productDTO)
-        //{
-        //    var product = new Product()
-        //    {
-        //        Name = productDTO.Name,
-        //    };
-
-        //    if (product == null)
-        //    {
-        //        throw new Exception();
-        //    }
-        //    _ctx.Products.Add(product);
-        //    await _ctx.SaveChangesAsync();
-        //}
-
-        //public async Task<IEnumerable<ProductDto>> GetProductsAsync()
-        //{
-        //    var products = await _ctx.Products.ToArrayAsync();
-        //    if (products == null)
-        //    {
-        //        throw new Exception();
-        //    }
-        //    var result = _mapper.Map<ProductDto[]>(products);
-        //    return result;
-        //}
-
-        //public async Task<ProductDto> GetProductByIdAsync(int id)
-        //{
-        //    var product = await _ctx.Products.FirstOrDefaultAsync(x => x.Id == id);
-        //    if (product == null)
-        //    {
-        //        throw new Exception();
-        //    }
-        //    var result = _mapper.Map<ProductDto>(product);
-        //    return result;
-        //}
     }
 }
