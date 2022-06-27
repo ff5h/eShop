@@ -22,24 +22,36 @@ namespace eShop.API.BLL.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<ProductDto> GetProductByIdAsync(int id)
+        public async Task<ProductDto> GetProductByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var product = await _ctx.Products.FirstOrDefaultAsync(x => x.Id == id);
+            if (product == null)
+                throw new Exception("Product with this ID does not exist");
+            var productDto = new ProductDto()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                PictureUrl = product.PictureUrl,
+                Mark = product.Mark
+            };
+            return productDto;
         }
 
         public async Task<IEnumerable<ProductDto>> GetProductsAsync()
         {
             var products = await _ctx.Products.ToArrayAsync();
-            var result = products.Select(x => new ProductDto()
+            var productDtos = products.Select(x => new ProductDto()
             {
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
-                PictureUrl = x.PictureUrl,
-                Mark = x.Mark,
                 Price = x.Price,
+                PictureUrl = x.PictureUrl,
+                Mark = x.Mark
             });
-            return result;
+            return productDtos;
         }
     }
 }

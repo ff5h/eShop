@@ -22,8 +22,8 @@ namespace eShop.API.Presentler.Controllers
         [Route("products")]
         public async Task<IActionResult> GetProductsAsync()
         {
-            var productDto = await _catalogService.GetProductsAsync();
-            var result = productDto.Select(x => new ProductContract()
+            var productDtos = await _catalogService.GetProductsAsync();
+            var contract = productDtos.Select(x => new ProductContract()
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -32,15 +32,24 @@ namespace eShop.API.Presentler.Controllers
                 Mark = x.Mark,
                 PictureUrl = x.PictureUrl
             });
-            return Ok(result);
+            return Ok(contract);
         }
 
         [HttpGet]
         [Route("product/{id:int}")]
         public async Task<IActionResult> GetProductByIdAsync(int id)
         {
-            var result = await _catalogService.GetProductByIdAsync(id);
-            return Ok(result);
+            var productDto = await _catalogService.GetProductByIdAsync(id);
+            var contract = new ProductContract()
+            {
+                Id = productDto.Id,
+                Name = productDto.Name,
+                Description = productDto.Description,
+                Price = productDto.Price,
+                PictureUrl = productDto.PictureUrl,
+                Mark = productDto.Mark
+            };
+            return Ok(contract);
         }
 
         [HttpPost]
