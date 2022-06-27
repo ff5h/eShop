@@ -24,15 +24,7 @@ namespace eShop.API.Presentler.Controllers
         public async Task<IActionResult> GetProductsAsync()
         {
             var productDtos = await _catalogService.GetProductsAsync();
-            var contract = productDtos.Select(x => new ProductContract()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                Price = x.Price,
-                Mark = x.Mark,
-                PictureUrl = x.PictureUrl
-            });
+            var contract = _mapper.Map<ProductContract[]>(productDtos);
             return Ok(contract);
         }
 
@@ -41,15 +33,7 @@ namespace eShop.API.Presentler.Controllers
         public async Task<IActionResult> GetProductByIdAsync(int id)
         {
             var productDto = await _catalogService.GetProductByIdAsync(id);
-            var contract = new ProductContract()
-            {
-                Id = productDto.Id,
-                Name = productDto.Name,
-                Description = productDto.Description,
-                Price = productDto.Price,
-                PictureUrl = productDto.PictureUrl,
-                Mark = productDto.Mark
-            };
+            var contract = _mapper.Map<ProductContract>(productDto);
             return Ok(contract);
         }
 
@@ -57,15 +41,8 @@ namespace eShop.API.Presentler.Controllers
         [Route("newProduct")]
         public async Task<IActionResult> CreateProductAsync(NewProductContract contract)
         {
-            var productDto = new NewProductRequestDto()
-            {
-                Name = contract.Name,
-                Description = contract.Description,
-                Price = contract.Price,
-                PictureUrl = contract.PictureUrl,
-                Mark = contract.Mark
-            };
-            var productId = await _catalogService.CreateProductAsync(productDto);
+            var productDto = _mapper.Map<NewProductRequestDto>(contract);
+            int productId = await _catalogService.CreateProductAsync(productDto);
             return Ok(productId);
         }
     }

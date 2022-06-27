@@ -20,14 +20,7 @@ namespace eShop.API.BLL.Implementations
 
         public async Task<int> CreateProductAsync(NewProductRequestDto productDto)
         {
-            var product = new Product()
-            {
-                Name = productDto.Name,
-                Description = productDto.Description,
-                Price = productDto.Price,
-                PictureUrl = productDto.PictureUrl,
-                Mark = productDto.Mark
-            };
+            var product = _mapper.Map<Product>(productDto);
             await _ctx.Products.AddAsync(product);
             await _ctx.SaveChangesAsync();
             var productId = product.Id;
@@ -39,30 +32,14 @@ namespace eShop.API.BLL.Implementations
             var product = await _ctx.Products.FirstOrDefaultAsync(x => x.Id == id);
             if (product == null)
                 throw new Exception("Product with this ID does not exist");
-            var productDto = new ProductDto()
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                PictureUrl = product.PictureUrl,
-                Mark = product.Mark
-            };
+            var productDto = _mapper.Map<ProductDto>(product);
             return productDto;
         }
 
         public async Task<IEnumerable<ProductDto>> GetProductsAsync()
         {
             var products = await _ctx.Products.ToArrayAsync();
-            var productDtos = products.Select(x => new ProductDto()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                Price = x.Price,
-                PictureUrl = x.PictureUrl,
-                Mark = x.Mark
-            });
+            var productDtos = _mapper.Map<ProductDto[]>(products);
             return productDtos;
         }
     }
