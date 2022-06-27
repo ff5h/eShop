@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using eShop.API.BLL.DTOs;
 using eShop.API.BLL.Interfaces;
 using eShop.API.Presentler.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -56,14 +57,16 @@ namespace eShop.API.Presentler.Controllers
         [Route("newProduct")]
         public async Task<IActionResult> CreateProductAsync(NewProductContract contract)
         {
-            //var product = new ProductDto()
-            //{
-            //    Name = contract.Name,
-            //};
-            //await _catalogService.CreateProductAsync(product);
-
-            var result = new ProductContract();
-            return Ok(result);
+            var productDto = new NewProductRequestDto()
+            {
+                Name = contract.Name,
+                Description = contract.Description,
+                Price = contract.Price,
+                PictureUrl = contract.PictureUrl,
+                Mark = contract.Mark
+            };
+            var productId = await _catalogService.CreateProductAsync(productDto);
+            return Ok(productId);
         }
     }
 }

@@ -2,6 +2,7 @@
 using eShop.API.BLL.DTOs;
 using eShop.API.BLL.Interfaces;
 using eShop.API.DAL;
+using eShop.API.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace eShop.API.BLL.Implementations
@@ -17,9 +18,20 @@ namespace eShop.API.BLL.Implementations
             _mapper = mapper;
         }
 
-        public Task<ProductDto> CreateProductAsync(NewProductRequestDto product)
+        public async Task<int> CreateProductAsync(NewProductRequestDto productDto)
         {
-            throw new NotImplementedException();
+            var product = new Product()
+            {
+                Name = productDto.Name,
+                Description = productDto.Description,
+                Price = productDto.Price,
+                PictureUrl = productDto.PictureUrl,
+                Mark = productDto.Mark
+            };
+            await _ctx.Products.AddAsync(product);
+            await _ctx.SaveChangesAsync();
+            var productId = product.Id;
+            return productId;
         }
 
         public async Task<ProductDto> GetProductByIdAsync(int id)

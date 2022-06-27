@@ -4,7 +4,7 @@ namespace eShop.API.BLL.Interfaces
 {
     public interface ICatalogService
     {
-        Task<ProductDto> CreateProductAsync(NewProductRequestDto product);
+        Task<int> CreateProductAsync(NewProductRequestDto product);
         Task<IEnumerable<ProductDto>> GetProductsAsync();
         Task<ProductDto> GetProductByIdAsync(int id);
     }
