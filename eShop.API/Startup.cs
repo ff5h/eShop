@@ -1,4 +1,6 @@
-﻿using eShop.API.DAL;
+﻿using eShop.API.BLL.Implementations;
+using eShop.API.BLL.Interfaces;
+using eShop.API.DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace eShop.API
@@ -19,7 +21,8 @@ namespace eShop.API
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.ConfigureServices();
-            //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +48,7 @@ namespace eShop.API
         }
     }
 
-    static class ServiceCollectionExtensions
+    public static class ServiceCollectionExtensions
     {
         public static IServiceCollection ConfigureCoreDb(this IServiceCollection services, IConfiguration configuration)
         {
@@ -59,6 +62,7 @@ namespace eShop.API
 
         public static IServiceCollection ConfigureServices(this IServiceCollection services)
         {
+            services.AddScoped<ICatalogService, CatalogService>();
             return services;
         }
     }

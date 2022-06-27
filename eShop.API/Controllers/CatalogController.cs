@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using eShop.API.BLL.DTOs;
+using eShop.API.BLL.Interfaces;
+using eShop.API.Contracts;
+using Microsoft.AspNetCore.Mvc;
 
 namespace eShop.API.Controllers
 {
@@ -6,11 +10,50 @@ namespace eShop.API.Controllers
     [ApiController]
     public class CatalogController : Controller
     {
-        [HttpGet]
-        [Route("items")]
-        public IActionResult ItemsAsync()
+        private readonly ICatalogService _catalogService;
+        private readonly IMapper _mapper;
+
+        public CatalogController(ICatalogService catalogService, IMapper mapper)
         {
-            return Ok("test");
+            _catalogService = catalogService;
+            _mapper = mapper;
+        }
+        
+        [HttpGet]
+        [Route("products")]
+        public async Task<IActionResult> GetProductsAsync()
+        {
+            try
+            {
+                var result = await _catalogService.GetProductsAsync();
+                return Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("products /{id:int}")]
+        public async Task<IActionResult> GetProductByIdAsync(int id)
+        {
+            var result = await _catalogService.GetProductByIdAsync(id);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("product")]
+        public async Task<IActionResult> CreateProductAsync(CreateProductContract contract)
+        {
+            var product = new ProductDto()
+            {
+                Name = contract.Name,
+            };
+            await _catalogService.CreateProductAsync(product);
+            return Ok();
         }
     }
 }
