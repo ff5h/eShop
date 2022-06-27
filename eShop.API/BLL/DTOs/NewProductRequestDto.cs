@@ -1,8 +1,7 @@
-﻿namespace eShop.API.DAL.Entities
+﻿namespace eShop.API.BLL.DTOs
 {
-    public class Product
+    public class NewProductRequestDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }

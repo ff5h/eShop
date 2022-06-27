@@ -1,6 +1,6 @@
-﻿namespace eShop.API.DAL.Entities
+﻿namespace eShop.API.Presentler.Contracts
 {
-    public class Product
+    public class ProductContract
     {
         public int Id { get; set; }
         public string Name { get; set; }

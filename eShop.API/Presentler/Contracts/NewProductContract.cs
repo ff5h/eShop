@@ -1,8 +1,7 @@
-﻿namespace eShop.API.DAL.Entities
+﻿namespace eShop.API.Presentler.Contracts
 {
-    public class Product
+    public class NewProductContract
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }

@@ -18,61 +18,66 @@ namespace eShop.API.BLL.Implementations
             _mapper = mapper;
         }
 
-        public async Task CreateProductAsync(ProductDto productDTO)
+        public Task<ProductDto> CreateProductAsync(NewProductRequestDto product)
         {
-            var product = new Product()
-            {
-                Name = productDTO.Name,
-            };
+            throw new NotImplementedException();
+        }
 
-            if (product == null)
-            {
-                throw new Exception();
-            }
-            _ctx.Products.Add(product);
-            await _ctx.SaveChangesAsync();
+        public Task<ProductDto> GetProductByIdAsync(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<ProductDto>> GetProductsAsync()
         {
             var products = await _ctx.Products.ToArrayAsync();
-            if (products == null)
+            var result = products.Select(x => new ProductDto()
             {
-                throw new Exception();
-            }
-            var result = _mapper.Map<ProductDto[]>(products);
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                PictureUrl = x.PictureUrl,
+                Mark = x.Mark,
+                Price = x.Price,
+            });
             return result;
         }
 
-        public async Task<ProductDto> GetProductByIdAsync(int id)
-        {
-            var product = await _ctx.Products.FirstOrDefaultAsync(x => x.Id == id);
-            if (product == null)
-            {
-                throw new Exception();
-            }
-            var result = _mapper.Map<ProductDto>(product);
-            return result;
-        }
+        //public async Task CreateProductAsync(ProductDto productDTO)
+        //{
+        //    var product = new Product()
+        //    {
+        //        Name = productDTO.Name,
+        //    };
 
-        public async Task UpdateProductAsync(int id, Product productDto) //TODO
-        {
-            var product = await _ctx.Products.FirstOrDefaultAsync(x => x.Id == id);
-            if (product == null)
-            {
-                throw new Exception();
-            }
-        }
+        //    if (product == null)
+        //    {
+        //        throw new Exception();
+        //    }
+        //    _ctx.Products.Add(product);
+        //    await _ctx.SaveChangesAsync();
+        //}
 
-        public async Task DeleteProductAsync(int id)
-        {
-            var product = await _ctx.Products.FirstOrDefaultAsync(x => x.Id == id);
-            if (product == null)
-            {
-                throw new Exception();
-            }
-            _ctx.Products.Remove(product);
-            await _ctx.SaveChangesAsync();
-        }
+        //public async Task<IEnumerable<ProductDto>> GetProductsAsync()
+        //{
+        //    var products = await _ctx.Products.ToArrayAsync();
+        //    if (products == null)
+        //    {
+        //        throw new Exception();
+        //    }
+        //    var result = _mapper.Map<ProductDto[]>(products);
+        //    return result;
+        //}
+
+        //public async Task<ProductDto> GetProductByIdAsync(int id)
+        //{
+        //    var product = await _ctx.Products.FirstOrDefaultAsync(x => x.Id == id);
+        //    if (product == null)
+        //    {
+        //        throw new Exception();
+        //    }
+        //    var result = _mapper.Map<ProductDto>(product);
+        //    return result;
+        //}
     }
 }
