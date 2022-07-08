@@ -27,6 +27,16 @@ namespace eShop.API.BLL.Implementations
             return productId;
         }
 
+        public async Task<bool> DeleteProductAsync(int id)
+        {
+            var product = await _ctx.Products.FirstOrDefaultAsync(x => x.Id == id);
+            if (product == null)
+                throw new Exception("Product with this ID does not exist");
+            _ctx.Products.Remove(product);
+            await _ctx.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<ProductDto> GetProductByIdAsync(int id)
         {
             var product = await _ctx.Products.FirstOrDefaultAsync(x => x.Id == id);

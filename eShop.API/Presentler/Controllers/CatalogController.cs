@@ -45,5 +45,15 @@ namespace eShop.API.Presentler.Controllers
             int productId = await _catalogService.CreateProductAsync(productDto);
             return Ok(productId);
         }
+
+        [HttpDelete]
+        [Route("delProduct/{id:int}")]
+        public async Task<IActionResult> DeleteProductAsync(int id)
+        {
+            var result = await _catalogService.DeleteProductAsync(id);
+            if (result != true)
+                return BadRequest(result);
+            return Ok(result);
+        }
     }
 }
